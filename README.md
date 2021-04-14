@@ -1,1 +1,1 @@
-# pytorch-quickstart.github.io
+# pytorch-quickstart
