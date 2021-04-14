@@ -209,11 +209,16 @@
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#class-torchvision-datasets-datasetfolder">
-     Class
+    <a class="reference internal nav-link" href="#torchvision-datasets-datasetfolder-root-loader-extensions">
      <code class="docutils literal notranslate">
       <span class="pre">
-       torchvision.datasets.DatasetFolder()
+       torchvision.datasets.DatasetFolder(root,
+      </span>
+      <span class="pre">
+       loader,
+      </span>
+      <span class="pre">
+       extensions)
       </span>
      </code>
     </a>
@@ -272,35 +277,41 @@
                 
   <div class="section" id="pytorch-dataloader-and-dataset-manual">
 <h1>PyTorch Dataloader and Dataset Manual<a class="headerlink" href="#pytorch-dataloader-and-dataset-manual" title="Permalink to this headline">¶</a></h1>
-<p>Reference: <a class="reference internal" href="pytorch.tensor-manual.html"><span class="doc std std-doc">PyTorch Tensor Manual</span></a></p>
+<p>Reference: <a class="reference internal" href="pytorch.tensor-manual.html"><span class="doc std std-doc">PyTorch Tensor Manual</span></a>
+and <a class="reference external" href="https://pytorch.org/docs/stable/data.html">PyTorch Official Docs</a></p>
 <div class="section" id="data-loading-in-torch">
 <h2>Data Loading in Torch<a class="headerlink" href="#data-loading-in-torch" title="Permalink to this headline">¶</a></h2>
-<p>PyTorch uses two classes that provide the necessary boilerplate and other useful utilities required to load datasets in a manner amenable to feeding into a neural network.</p>
-<p>A key class in question is the <code class="docutils literal notranslate"><span class="pre">torch.utils.data.DataLoader</span></code> which wraps a <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> object in a variety of modes, that is application specific.</p>
-<p>The options that can be configured on a <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> are reflected in its signature: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">dataloader</span> <span class="pre">=</span> <span class="pre">DataLoader(dataset,</span> <span class="pre">batch_size=1,</span> <span class="pre">shuffle=False,</span> <span class="pre">sampler=None,</span> <span class="pre">batch_sampler=None,</span> <span class="pre">num_workers=0,</span> <span class="pre">collate_fn=None,</span> <span class="pre">pin_memory=False,</span> <span class="pre">drop_last=False,</span> <span class="pre">timeout=0,</span> <span class="pre">worker_init_fn=None,</span> <span class="pre">*,</span> <span class="pre">prefetch_factor=2,</span> <span class="pre">persistent_workers=False)</span></code></p>
-<p>They key to understanding various ways of loading Data in PyTorch is to understand the various arguments fed into a <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> object and their use.</p>
-<p>We will refer to the class as <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> and the object as <code class="docutils literal notranslate"><span class="pre">dataloader</span></code>.</p>
+<p>PyTorch uses two classes that provide the necessary boilerplate and other useful utilities required to load datasets in a manner amenable to feeding into a neural network. A key class in question is the <code class="docutils literal notranslate"><span class="pre">torch.utils.data.DataLoader</span></code> which wraps a <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> object in a variety of modes, that is application specific. The options that can be configured on a <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> are reflected in its signature: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">dataloader</span> <span class="pre">=</span> <span class="pre">DataLoader(dataset,</span> <span class="pre">batch_size=1,</span> <span class="pre">shuffle=False,</span> <span class="pre">sampler=None,</span> <span class="pre">batch_sampler=None,</span> <span class="pre">num_workers=0,</span> <span class="pre">collate_fn=None,</span> <span class="pre">pin_memory=False,</span> <span class="pre">drop_last=False,</span> <span class="pre">timeout=0,</span> <span class="pre">worker_init_fn=None,</span> <span class="pre">*,</span> <span class="pre">prefetch_factor=2,</span> <span class="pre">persistent_workers=False)</span></code></p>
+<blockquote>
+<div><p>They entry point to understanding various ways of loading Data in PyTorch is to understand the various arguments fed into a <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> object and their use.
+We will refer to the class as <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> and the object as <code class="docutils literal notranslate"><span class="pre">dataloader</span></code>.</p>
+</div></blockquote>
 </div>
 <div class="section" id="the-dataset-argument">
 <h2>The <code class="docutils literal notranslate"><span class="pre">dataset</span></code> argument<a class="headerlink" href="#the-dataset-argument" title="Permalink to this headline">¶</a></h2>
 <p>The most important argument of <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> is the <code class="docutils literal notranslate"><span class="pre">dataset</span></code> object which can be of two types.</p>
-<p><strong>map-style</strong> datasets: This is a dataset that can be accessed as one would a key-value store , or a map. The keys can be any hashable object, but PyTorch supports integer keys out of the box. In general we would access an element of this dataset simply by indexing the <code class="docutils literal notranslate"><span class="pre">dataset</span></code> object like so, <code class="docutils literal notranslate"><span class="pre">dataset[idx]</span></code> to obtain the <code class="docutils literal notranslate"><span class="pre">idx</span></code>th object.</p>
+<ol>
+<li><p><strong>map-style</strong> datasets: This is a dataset that can be accessed as one would a key-value store , or a map. The keys can be any hashable object, but PyTorch supports integer keys out of the box. In general we would access an element of this dataset simply by indexing the <code class="docutils literal notranslate"><span class="pre">dataset</span></code> object like so, <code class="docutils literal notranslate"><span class="pre">dataset[idx]</span></code> to obtain the <code class="docutils literal notranslate"><span class="pre">idx</span></code>th object.</p>
 <blockquote>
 <div><p>To create a <strong>map-style</strong> dataset we extend the abstract class <code class="docutils literal notranslate"><span class="pre">torch.utils.data.Dataset</span></code> and implement the <code class="docutils literal notranslate"><span class="pre">__get_item__()</span></code> function and optionally the <code class="docutils literal notranslate"><span class="pre">__len__()</span></code> function.</p>
 </div></blockquote>
-<p><strong>iterable-style</strong>: This type of dataset is best used in situations where random reads are expensive or the notion of a batch is somewhat ambiguous or undefined. Some typical scenarios are,</p>
-<p>This type of dataset is especially impactful in situations where we’re reading from a source of data that is itself stochastic (in Deep RL, this is fairly common).</p>
-<p>where random reads are expensive (reading from HDFS) or</p>
-<p>a large file that can’t be loaded into memory (huge text file),</p>
-<p>a large file that is still being written to (like a log file).</p>
+</li>
+<li><p><strong>iterable-style</strong>: This type of dataset is best used in situations where random reads are expensive or the notion of a batch is somewhat ambiguous or undefined. Some typical scenarios are listed below.</p>
+<ul class="simple">
+<li><p>This type of dataset is especially impactful in situations where we’re reading from a source of data that is itself stochastic (in Deep RL, this is fairly common).</p></li>
+<li><p>where random reads are expensive (reading from HDFS) or</p></li>
+<li><p>a large file that can’t be loaded into memory (huge text file).</p></li>
+<li><p>a large file that is still being written to (like a log file).</p></li>
+</ul>
+</li>
+</ol>
 <blockquote>
 <div><p>To create an <strong>iterable-style</strong> dataset, we extend the abstract class <code class="docutils literal notranslate"><span class="pre">torch.utils.data.IterableDataset</span></code> and implement the <code class="docutils literal notranslate"><span class="pre">__iter__()</span></code> function that represents an iterable over data samples. We explicitly make use of the <code class="docutils literal notranslate"><span class="pre">yield</span></code> keyword in python to ensure this is the case.</p>
 </div></blockquote>
 </div>
 <div class="section" id="batch-able-datasets">
 <h2>Batch-able Datasets<a class="headerlink" href="#batch-able-datasets" title="Permalink to this headline">¶</a></h2>
-<p>Batch-able datasets are the most common and are easily handled by PyTorch.</p>
-<p>As noted above, <strong>map-style</strong> datasets are meant to handle this kind of data.</p>
+<p>Batch-able datasets are the most common and are easily handled by PyTorch. As noted above, <strong>map-style</strong> datasets are meant to handle this kind of data.</p>
 <blockquote>
 <div><p>To create a <strong>map-style</strong> dataset we extend the abstract class <code class="docutils literal notranslate"><span class="pre">torch.utils.data.Dataset</span></code> and implement the <code class="docutils literal notranslate"><span class="pre">__get_item__()</span></code> function and optionally the <code class="docutils literal notranslate"><span class="pre">__len__()</span></code> function.</p>
 </div></blockquote>
@@ -309,30 +320,28 @@
 <h2>Default Dataloaders<a class="headerlink" href="#default-dataloaders" title="Permalink to this headline">¶</a></h2>
 <p>PyTorch has a few useful defaults that can speed up your implementation.</p>
 <div class="section" id="torch-utils-data-tensordataset-tensors">
-<h3><code class="docutils literal notranslate"><span class="pre">torch.utils.data.TensorDataset(*tensors)</span></code><a class="headerlink" href="#torch-utils-data-tensordataset-tensors" title="Permalink to this headline">¶</a></h3>
-<p>Let each data point be a tensor of arbitrary dimensions <code class="docutils literal notranslate"><span class="pre">(d_1,</span> <span class="pre">d_2,</span> <span class="pre">...,</span> <span class="pre">d_k)</span></code></p>
-<p>A dataset formed by creating a tensor of <code class="docutils literal notranslate"><span class="pre">N</span></code> such samples of dimension <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">d_1,</span> <span class="pre">d_2,</span> <span class="pre">...,</span> <span class="pre">d_k)</span></code> can be can be loaded using this wrapper.</p>
-<p>Accessing the <span class="math notranslate nohighlight">\(i\)</span>th sample through the <code class="docutils literal notranslate"><span class="pre">TensorDataset</span></code> object is done using <code class="docutils literal notranslate"><span class="pre">tensor_dataset[i</span> <span class="pre">-</span> <span class="pre">1]</span></code> (since tensors use 0 based indexing).</p>
+<h3><a class="reference external" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.TensorDataset"><code class="docutils literal notranslate"><span class="pre">torch.utils.data.TensorDataset(*tensors)</span></code></a><a class="headerlink" href="#torch-utils-data-tensordataset-tensors" title="Permalink to this headline">¶</a></h3>
+<p>Let each data point be a tensor of arbitrary dimensions <code class="docutils literal notranslate"><span class="pre">(d_1,</span> <span class="pre">d_2,</span> <span class="pre">...,</span> <span class="pre">d_k)</span></code>. A dataset formed by creating a tensor of <code class="docutils literal notranslate"><span class="pre">N</span></code> such samples of dimension <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">d_1,</span> <span class="pre">d_2,</span> <span class="pre">...,</span> <span class="pre">d_k)</span></code> can be can be loaded using this wrapper. Accessing the <span class="math notranslate nohighlight">\(i\)</span>th sample through the <code class="docutils literal notranslate"><span class="pre">TensorDataset</span></code> object is done using <code class="docutils literal notranslate"><span class="pre">tensor_dataset[i</span> <span class="pre">-</span> <span class="pre">1]</span></code> (since tensors use 0 based indexing).</p>
 </div>
 <div class="section" id="torch-utils-data-concatdataset-datasets">
-<h3><code class="docutils literal notranslate"><span class="pre">torch.utils.data.ConcatDataset(datasets)</span></code><a class="headerlink" href="#torch-utils-data-concatdataset-datasets" title="Permalink to this headline">¶</a></h3>
-<p>This creates a dataset by concatenating two datasets.</p>
+<h3><a class="reference external" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.ConcatDataset"><code class="docutils literal notranslate"><span class="pre">torch.utils.data.ConcatDataset(datasets)</span></code></a><a class="headerlink" href="#torch-utils-data-concatdataset-datasets" title="Permalink to this headline">¶</a></h3>
+<p>This creates a dataset by concatenating two datasets. This is very handy when we wish to leverage different datasources with the same type of data, differently organized.</p>
 </div>
-<div class="section" id="class-torchvision-datasets-datasetfolder">
-<h3>Class <a class="reference external" href="https://pytorch.org/vision/stable/datasets.html#torchvision.datasets.DatasetFolder"><code class="docutils literal notranslate"><span class="pre">torchvision.datasets.DatasetFolder()</span></code></a><a class="headerlink" href="#class-torchvision-datasets-datasetfolder" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="torchvision-datasets-datasetfolder-root-loader-extensions">
+<h3><a class="reference external" href="https://pytorch.org/vision/stable/datasets.html#torchvision.datasets.DatasetFolder"><code class="docutils literal notranslate"><span class="pre">torchvision.datasets.DatasetFolder(root,</span> <span class="pre">loader,</span> <span class="pre">extensions)</span></code></a><a class="headerlink" href="#torchvision-datasets-datasetfolder-root-loader-extensions" title="Permalink to this headline">¶</a></h3>
 <p>A class that implements a generic dataset for samples arranged using the directory structure shown below.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>root/
-    class_1/
-            sample_1.ext
-            sample_2.ext
-            .
-            .
-            .
-    class_2/
-            sample_1.ext
-            sample_2.ext
-            .
-            .
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>        root/
+        class_1/
+                sample_1.ext
+                sample_2.ext
+                .
+                .
+                .
+        class_2/
+                sample_1.ext
+                sample_2.ext
+                .
+                .
 </pre></div>
 </div>
 </div>
@@ -341,25 +350,27 @@
 <h2>The <code class="docutils literal notranslate"><span class="pre">batch_size</span></code> argument and Automatic Batching<a class="headerlink" href="#the-batch-size-argument-and-automatic-batching" title="Permalink to this headline">¶</a></h2>
 <p>This tells the <code class="docutils literal notranslate"><span class="pre">dataloader</span></code> object how many samples to extract from the <code class="docutils literal notranslate"><span class="pre">dataset</span></code>.</p>
 <blockquote>
-<div><p>Passing a <code class="docutils literal notranslate"><span class="pre">batch_size=None</span></code> implies that we’re dealing with a dataset for which Automatic Batching is disabled.</p>
+<div><p>Passing a <code class="docutils literal notranslate"><span class="pre">batch_size=None</span></code> implies that we’re dealing with a dataset for which Automatic Batching is disabled.
+PyTorch automatically creates batches using a default <code class="docutils literal notranslate"><span class="pre">collate_fn</span></code> of size <code class="docutils literal notranslate"><span class="pre">batch_size</span></code>.</p>
 </div></blockquote>
-<p>PyTorch automatically creates batches using a default <code class="docutils literal notranslate"><span class="pre">collate_fn</span></code> of size <code class="docutils literal notranslate"><span class="pre">batch_size</span></code>.</p>
 </div>
 <div class="section" id="automatic-batching-with-collate-fn">
 <h2>Automatic Batching with <code class="docutils literal notranslate"><span class="pre">collate_fn</span></code><a class="headerlink" href="#automatic-batching-with-collate-fn" title="Permalink to this headline">¶</a></h2>
-<p>In a scenario when a <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> is provided with <code class="docutils literal notranslate"><span class="pre">batch_size</span></code>, <code class="docutils literal notranslate"><span class="pre">batch_sampler</span></code> or <code class="docutils literal notranslate"><span class="pre">shuffle=True</span></code> the <code class="docutils literal notranslate"><span class="pre">collate_fn</span></code> defaults to the following behavior.</p>
-<p>Prepend a new dimension as a batch dimension. This is always the first dimension.</p>
-<p>Convert Numpy arrays and Python numerics to PyTorch tensors.</p>
-<p>Preserves the structure of the <code class="docutils literal notranslate"><span class="pre">dataset.__get_item__()</span></code> function. for eg. if this function returns a dictionary, the keys are the same but the values are batched tensors (or lists). The same applies to tuples, or lists.</p>
+<p>In a scenario when a <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> is provided with <code class="docutils literal notranslate"><span class="pre">batch_size</span></code>, <code class="docutils literal notranslate"><span class="pre">batch_sampler</span></code> or <code class="docutils literal notranslate"><span class="pre">shuffle=True</span></code> the <code class="docutils literal notranslate"><span class="pre">collate_fn</span></code> has the following default behavior.</p>
+<ol class="simple">
+<li><p>Prepend a new dimension as a batch dimension. This is always the first dimension.</p></li>
+<li><p>Convert Numpy arrays and Python numerics to PyTorch tensors.</p></li>
+<li><p>Preserves the structure of the <code class="docutils literal notranslate"><span class="pre">dataset.__get_item__()</span></code> function. for eg. if this function returns a dictionary, the keys are the same but the values are batched tensors (or lists). The same applies to tuples, or lists.</p></li>
+</ol>
 <blockquote>
-<div><p>Custom <code class="docutils literal notranslate"><span class="pre">collate_fn</span></code> can be passed in if we wish to collate along a different dimension, padding sequences of various lengths, or adding support for special data types.</p>
+<div><p>A custom <code class="docutils literal notranslate"><span class="pre">collate_fn</span></code> can be passed in if we wish to collate along a different dimension, padding sequences of various lengths, or adding support for special data types.</p>
 </div></blockquote>
 </div>
 <div class="section" id="the-sampler-and-batch-sampler-argument">
 <h2>The <code class="docutils literal notranslate"><span class="pre">sampler</span></code> and <code class="docutils literal notranslate"><span class="pre">batch_sampler</span></code> argument<a class="headerlink" href="#the-sampler-and-batch-sampler-argument" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">sampler</span></code> argument provides a means of specifying which indices or sequence of indices need to be used to create batches.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">sampler</span></code> argument provides a means of specifying which indices or sequence of indices need to be used to create batches. The samplers above work under the assumption that the sampler returns a single index into a dataset. We can use <code class="docutils literal notranslate"><span class="pre">torch.utils.data.BatchSampler(sampler,</span> <span class="pre">batch_size,</span> <span class="pre">drop_last)</span></code> to convert these into a batch sampler instead, which is returns a list or a sequential collection that can be used to index into a <code class="docutils literal notranslate"><span class="pre">Dataset</span></code>.</p>
 <blockquote>
-<div><p>The use of a <code class="docutils literal notranslate"><span class="pre">sampler</span></code> or <code class="docutils literal notranslate"><span class="pre">batch_sampler</span></code> and a <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">batch_size</span></code> enables automatic batching. This triggers the default behavior of <code class="docutils literal notranslate"><span class="pre">collate_fn</span></code> when <code class="docutils literal notranslate"><span class="pre">collate_fn=None</span></code> is passed.</p>
+<div><p>The use of a <code class="docutils literal notranslate"><span class="pre">sampler</span></code> or <code class="docutils literal notranslate"><span class="pre">batch_sampler</span></code> and a <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">batch_size</span></code> enables automatic batching. This triggers the default behavior of <code class="docutils literal notranslate"><span class="pre">collate_fn</span></code> when <code class="docutils literal notranslate"><span class="pre">collate_fn=None</span></code> is passed. Moreover, if the indices into your dataset are non-integer, it is mandatory to implement a <code class="docutils literal notranslate"><span class="pre">BatchSampler</span></code> or <code class="docutils literal notranslate"><span class="pre">Sampler</span></code>.</p>
 </div></blockquote>
 <p>The difference between a <code class="docutils literal notranslate"><span class="pre">sampler</span></code> and <code class="docutils literal notranslate"><span class="pre">batch_sampler</span></code> is that a <code class="docutils literal notranslate"><span class="pre">sampler</span></code> is expected to provide a <strong>single key</strong> and a <code class="docutils literal notranslate"><span class="pre">batch_sampler</span></code> is expected to provide <code class="docutils literal notranslate"><span class="pre">batch_size</span></code> number of keys.</p>
 <p>On passing <code class="docutils literal notranslate"><span class="pre">shuffle=True</span></code> to the <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code>, a sampler that shuffles the dataset every epoch is automatically constructed.</p>
@@ -367,11 +378,11 @@
 <div><p>A sampler can be created by extending <code class="docutils literal notranslate"><span class="pre">torch.utils.data.Sampler</span></code> and overriding the <code class="docutils literal notranslate"><span class="pre">__iter__()</span></code> function to yield a set (or single) indices. Optionally the <code class="docutils literal notranslate"><span class="pre">__len__()</span></code> function can be overriden.</p>
 </div></blockquote>
 <p>PyTorch provides some interesting default samplers that can help speed up our implementation.</p>
-<p><code class="docutils literal notranslate"><span class="pre">torch.utils.data.RandomSampler(data_source,</span> <span class="pre">replacement=False,</span> <span class="pre">num_samples=None,</span> <span class="pre">generator=None)</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">torch.utils.data.WeightedRandomSampler(weights,</span> <span class="pre">num_samples,</span> <span class="pre">replacement=True,</span> <span class="pre">generator=None)</span></code></p>
-<p>Here <code class="docutils literal notranslate"><span class="pre">weights</span></code> is a <code class="docutils literal notranslate"><span class="pre">double</span></code> tensor that provides a sample weight for each sample in the dataset.</p>
+<ol class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">torch.utils.data.RandomSampler(data_source,</span> <span class="pre">replacement=False,</span> <span class="pre">num_samples=None,</span> <span class="pre">generator=None)</span></code>. The <code class="docutils literal notranslate"><span class="pre">shuffle=True</span></code> creates a RandomSampler object implicitly.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">torch.utils.data.WeightedRandomSampler(weights,</span> <span class="pre">num_samples,</span> <span class="pre">replacement=True,</span> <span class="pre">generator=None)</span></code>. Here <code class="docutils literal notranslate"><span class="pre">weights</span></code> is a <code class="docutils literal notranslate"><span class="pre">double</span></code> tensor that provides a sample weight for each sample in the dataset.</p></li>
+</ol>
 <p>Read this <a class="reference external" href="https://discuss.pytorch.org/t/how-to-handle-imbalanced-classes/11264/2">discussion</a> on the PyTorch forums for a useful guide to implement weighted sampling on Datasets.</p>
-<p>The samplers above work under the assumption that the sampler returns a single index into a dataset. We can use <code class="docutils literal notranslate"><span class="pre">torch.utils.data.BatchSampler(sampler,</span> <span class="pre">batch_size,</span> <span class="pre">drop_last)</span></code> to convert these into a batch sampler instead.</p>
 </div>
 </div>
 

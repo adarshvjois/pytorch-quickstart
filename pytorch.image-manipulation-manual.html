@@ -309,14 +309,10 @@ and <a class="reference external" href="https://openslide.org/docs/properties/">
 <h2>Whole-Slide Images (WSI)<a class="headerlink" href="#whole-slide-images-wsi" title="Permalink to this headline">¶</a></h2>
 <p>Whole-slide images (WSI) are high resolution images used in digital histopathology.</p>
 <blockquote>
-<div><p>**Histopathology****Histopathology** (compound of three <a class="reference external" href="https://en.wikipedia.org/wiki/Greek_language">Greek</a> words: ἱστός <strong>histos</strong> “tissue”, πάθος <strong>pathos</strong> “suffering”, and -λογία <strong><a class="reference external" href="https://en.wikipedia.org/wiki/-logy">-logia</a></strong> “study of”) refers to the <a class="reference external" href="https://en.wikipedia.org/wiki/Light_microscope">microscopic</a> examination of <a class="reference external" href="https://en.wikipedia.org/wiki/Tissue_(biology)">tissue</a> in order to study the manifestations of <a class="reference external" href="https://en.wikipedia.org/wiki/Disease">disease</a>. Specifically, in clinical medicine, histopathology refers to the examination of a <a class="reference external" href="https://en.wikipedia.org/wiki/Biopsy">biopsy</a> or surgical <a class="reference external" href="https://en.wikipedia.org/wiki/Laboratory_specimen">specimen</a> by a <a class="reference external" href="https://en.wikipedia.org/wiki/Pathology">pathologist</a>, after the specimen has been processed and histological sections have been placed onto glass slides</p>
+<div><p><strong>Histopathology</strong> (compound of three <a class="reference external" href="https://en.wikipedia.org/wiki/Greek_language">Greek</a> words: ἱστός <strong>histos</strong> “tissue”, πάθος <strong>pathos</strong> “suffering”, and -λογία <strong><a class="reference external" href="https://en.wikipedia.org/wiki/-logy">-logia</a></strong> “study of”) refers to the <a class="reference external" href="https://en.wikipedia.org/wiki/Light_microscope">microscopic</a> examination of <a class="reference external" href="https://en.wikipedia.org/wiki/Tissue_(biology)">tissue</a> in order to study the manifestations of <a class="reference external" href="https://en.wikipedia.org/wiki/Disease">disease</a>. Specifically, in clinical medicine, histopathology refers to the examination of a <a class="reference external" href="https://en.wikipedia.org/wiki/Biopsy">biopsy</a> or surgical <a class="reference external" href="https://en.wikipedia.org/wiki/Laboratory_specimen">specimen</a> by a <a class="reference external" href="https://en.wikipedia.org/wiki/Pathology">pathologist</a>, after the specimen has been processed and histological sections have been placed onto glass slides</p>
 </div></blockquote>
-<p>In terms of relative scale, looking for important artifacts within a WSI is like looking for something the size of a football in a football field.</p>
-<p>Since these images are such high resolution they also pose interesting computational challenges.</p>
-<p>The images uncompressed often exceed the amount of RAM available in commercial computers.</p>
-<p>This makes processing the image challenging since traditional image processing tools do not cater to such large images with immense detail.</p>
-<p>Whole-slide images occur in various formats meant to store large images that are retrieved from different microscope and imaging software vendors.</p>
-<p>Common formats are listed below:</p>
+<p>In terms of relative scale, looking for important artifacts within a WSI is like looking for something the size of a football in a football field. Since these images are such high resolution they also pose interesting computational challenges. The images uncompressed often exceed the amount of RAM available in commercial computers. This makes processing the image challenging since traditional image processing tools do not cater to such large images with immense detail.
+Whole-slide images occur in various formats meant to store large images that are retrieved from different microscope and imaging software vendors. Common formats are listed below:</p>
 <ul class="simple">
 <li><p>Aperio SVS</p></li>
 <li><p>Hamamatsu VMS</p></li>
@@ -329,20 +325,14 @@ and <a class="reference external" href="https://openslide.org/docs/properties/">
 </div>
 <div class="section" id="utility-of-openslide">
 <h2>Utility of OpenSlide<a class="headerlink" href="#utility-of-openslide" title="Permalink to this headline">¶</a></h2>
-<p>OpenSlide is a C program that efficiently manages the reading and utilization of WSI’s for a variety of formats.</p>
-<p>Since there is no agreed upon standard for WSI’s each vendor implements its own libraries and viewers.</p>
-<p>Furthermore, to protect intellectual property, these vendors obscure important details from these implementations.</p>
-<p>Thus the need for libraries like OpenSlide which bridges the divide by providing a free and Open Source solution to managing and reading WSI’s.</p>
+<p>OpenSlide is a C program that efficiently manages the reading and utilization of WSI’s for a variety of formats. Since there is no agreed upon standard for WSI’s each vendor implements its own libraries and viewers. Furthermore, to protect intellectual property, these vendors obscure important details from these implementations. Thus the need for libraries like OpenSlide which bridges the divide by providing a free and Open Source solution to managing and reading WSI’s.</p>
 </div>
 <div class="section" id="basic-usage-of-openslide-in-python">
 <h2>Basic usage of OpenSlide in Python<a class="headerlink" href="#basic-usage-of-openslide-in-python" title="Permalink to this headline">¶</a></h2>
-<p>Imaging instrument manufacturers store WSI’s as multi-resolution images. These images are at fixed zoom levels.</p>
-<p>Open slide is used to read a small amount of a huge image available at a desired resolution that is closest to an available zoom level.</p>
+<p>Imaging instrument manufacturers store WSI’s as multi-resolution images. These images are at fixed zoom levels. Open slide is used to read a small amount of a huge image available at a desired resolution that is closest to an available zoom level.</p>
 <div class="section" id="reading-the-whole-slide-image-as-a-python-object">
 <h3>Reading the Whole-Slide Image as a python Object<a class="headerlink" href="#reading-the-whole-slide-image-as-a-python-object" title="Permalink to this headline">¶</a></h3>
-<p>WSI files are usually files that range from a few 100MB to a few GB’s and have file extensions as mentioned above.</p>
-<p>OpenSlide uses a filename as a constructor and determines the vendor of the format using a combination of the filename and metadata present in the WSI file.</p>
-<p>To use OpenSlide we construct an OpenSlide object as demonstrated below.</p>
+<p>WSI files are usually files that range from a few 100MB to a few GB’s and have file extensions as mentioned above. OpenSlide uses a filename as a constructor and determines the vendor of the format using a combination of the filename and metadata present in the WSI file. To use OpenSlide we construct an OpenSlide object as demonstrated below.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">openslide</span>
 
 <span class="n">wsi</span> <span class="o">=</span> <span class="n">openslide</span><span class="o">.</span><span class="n">OpenSlide</span><span class="p">(</span><span class="s1">&#39;&lt;filename&gt;&#39;</span><span class="p">)</span>
@@ -381,8 +371,7 @@ and <a class="reference external" href="https://openslide.org/docs/properties/">
 </div>
 <div class="section" id="other-properties-attribute">
 <h3>Other properties attribute<a class="headerlink" href="#other-properties-attribute" title="Permalink to this headline">¶</a></h3>
-<p>To know more about the image that encapsulated by this file, a <code class="docutils literal notranslate"><span class="pre">properties</span></code> attribute is provided.</p>
-<p>We can access it using the following attribute but instead of directly using this attribute, this snippet will pretty print the Map object returned.</p>
+<p>To know more about the image that encapsulated by this file, a <code class="docutils literal notranslate"><span class="pre">properties</span></code> attribute is provided. We can access it using the following attribute but instead of directly using this attribute, this snippet will pretty print the Map object returned.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">wsi</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
                  <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">wsi</span><span class="o">.</span><span class="n">properties</span><span class="p">]))</span>
 </pre></div>
@@ -432,13 +421,17 @@ tiff.YResolution:20000
 <div class="section" id="useful-properties-of-the-wsi">
 <h3>Useful <code class="docutils literal notranslate"><span class="pre">.properties</span></code> of the WSI<a class="headerlink" href="#useful-properties-of-the-wsi" title="Permalink to this headline">¶</a></h3>
 <p>There are three kinds of properties seen above.</p>
-<p>Manufacturer / Vendor specific properties starts with <code class="docutils literal notranslate"><span class="pre">leica.</span></code></p>
-<p>Format based properties starts with <code class="docutils literal notranslate"><span class="pre">tiff.</span></code></p>
-<p>Properties generates by OpenSlide. <code class="docutils literal notranslate"><span class="pre">openslide.</span></code></p>
-<p>We will focus on properties generated by OpenSlide, for more read the documentation <a class="reference external" href="https://openslide.org/docs/properties/">here</a></p>
-<p><code class="docutils literal notranslate"><span class="pre">openslide.bounds-width</span></code> and <code class="docutils literal notranslate"><span class="pre">openslide.bounds.height</span></code>: The width and height of the rectangle that bounds the non-empty region of the slide.</p>
-<p><code class="docutils literal notranslate"><span class="pre">openslide.bounds-x</span></code> and <code class="docutils literal notranslate"><span class="pre">openslide.bounds-y</span></code>: The X and Y coordinate of the top left corner of the non-empty region of the slide.</p>
-<p><code class="docutils literal notranslate"><span class="pre">openslide.mpp-x</span></code> and <code class="docutils literal notranslate"><span class="pre">openslide.mpp-y</span></code>: Microns per-pixel in the X and Y dimension of the slide at level 0.</p>
+<ul class="simple">
+<li><p>Manufacturer / Vendor specific properties starts with <code class="docutils literal notranslate"><span class="pre">leica.</span></code></p></li>
+<li><p>Format based properties starts with <code class="docutils literal notranslate"><span class="pre">tiff.</span></code></p></li>
+<li><p>Properties generated by OpenSlide. <code class="docutils literal notranslate"><span class="pre">openslide.</span></code></p></li>
+</ul>
+<p>We will focus on properties generated by OpenSlide, for more read the documentation <a class="reference external" href="https://openslide.org/docs/properties/">here</a>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">openslide.bounds-width</span></code> and <code class="docutils literal notranslate"><span class="pre">openslide.bounds.height</span></code>: The width and height of the rectangle that bounds the non-empty region of the slide.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">openslide.bounds-x</span></code> and <code class="docutils literal notranslate"><span class="pre">openslide.bounds-y</span></code>: The X and Y coordinate of the top left corner of the non-empty region of the slide.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">openslide.mpp-x</span></code> and <code class="docutils literal notranslate"><span class="pre">openslide.mpp-y</span></code>: Microns per-pixel in the X and Y dimension of the slide at level 0.</p></li>
+</ul>
 <blockquote>
 <div><p><strong>These properties are not always present</strong> but when they are, they are highly useful.</p>
 </div></blockquote>
@@ -448,9 +441,9 @@ tiff.YResolution:20000
 <h2>Reading a region from the slide<a class="headerlink" href="#reading-a-region-from-the-slide" title="Permalink to this headline">¶</a></h2>
 <p>To read a region from the slide we use the <code class="docutils literal notranslate"><span class="pre">.read_region</span></code> method on the WSI object created above.</p>
 <blockquote>
-<div><p>This function <strong>lazily</strong> reads a region of the WSI at the specified down-sampling level. The fact that this function does not load the entire WSI into RAM is critical to OpenSlide usability. It is important to note that it is easy to misuse this function since no memory checks are made to validate the arguments.</p>
+<div><p>This function <strong>lazily</strong> reads a region of the WSI at the specified down-sampling level. The fact that this function does not load the entire WSI into RAM is critical to OpenSlide usability. It is important to note that it is easy to misuse this function since no memory checks are made to validate the arguments.
+Read region takes three arguments as described below.</p>
 </div></blockquote>
-<p>Read region takes three arguments as described below.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="n">location</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># the top left pixel</span>
@@ -472,9 +465,7 @@ tiff.YResolution:20000
 </div>
 <div class="section" id="reading-the-non-empty-region-of-the-slide">
 <h2>Reading the non-empty region of the slide<a class="headerlink" href="#reading-the-non-empty-region-of-the-slide" title="Permalink to this headline">¶</a></h2>
-<p>We must deal with the fact that the non-empty region is a rectangular region within the WSI surrounded by a black border that does not contain any information.</p>
-<p>Since we know how to read a non empty region and understand some of the attributes of we will proceed to design a function that reads a usable region of the slide.</p>
-<p>For this function we will need access to the following attributes of the slide, furnished by <code class="docutils literal notranslate"><span class="pre">openslide</span></code>.</p>
+<p>We must deal with the fact that the non-empty region is a rectangular region within the WSI surrounded by a black border that does not contain any information. Since we know how to read a non empty region and understand some of the attributes of we will proceed to design a function that reads a usable region of the slide. For this function we will need access to the following attributes of the slide, furnished by <code class="docutils literal notranslate"><span class="pre">openslide</span></code>.</p>
 <blockquote>
 <div><p><strong>Thus function will work for the simple case in which OpenSlide is able to determine the following attributes</strong> &gt; <code class="docutils literal notranslate"><span class="pre">openslide.bounds-height</span></code>, <code class="docutils literal notranslate"><span class="pre">openslide.bounds-width</span></code> &gt; <code class="docutils literal notranslate"><span class="pre">openslide.bounds-x</span></code> and <code class="docutils literal notranslate"><span class="pre">openslide.bounds-y</span></code>.</p>
 </div></blockquote>
