@@ -1,0 +1,691 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PyTorch Tensor Manual &#8212; PyTorch Quick Start  documentation</title>
+    
+  <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="PyTorch Image Manipulation Manual" href="pytorch.image-manipulation-manual.html" />
+    <link rel="prev" title="QuickStart PyTorch" href="root.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="index.html">
+  
+  
+  <h1 class="site-logo" id="site-title">PyTorch Quick Start  documentation</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <p class="caption collapsible-parent">
+ <span class="caption-text">
+  Contents:
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="root.html">
+   QuickStart PyTorch
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   PyTorch Tensor Manual
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pytorch.image-manipulation-manual.html">
+   PyTorch Image Manipulation Manual
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pytorch.dataloader-and-dataset-manual.html">
+   PyTorch Dataloader and Dataset Manual
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/pytorch.tensor-manual.md.txt"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tensors">
+   Tensors
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tensors-of-more-than-1-dimension">
+     Tensors of more than 1 dimension
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#indexing-tensors">
+     Indexing Tensors
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#broadcasting">
+     Broadcasting
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#broadcasting-rules">
+       Broadcasting Rules
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tensor-element-types">
+   Tensor element types
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#numeric-data-types-in-pytorch">
+     Numeric Data Types in Pytorch
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#floating-point-types">
+       Floating Point Types
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#integer-types">
+       Integer Types
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#boolean-types">
+       Boolean Types
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#general-info-about-types">
+       General Info about types
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#managing-a-tensors-type-using-dtype">
+     Managing a Tensors Type using
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       dtype
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tensor-ops">
+   Tensor Ops
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tensor-indexing-and-storage">
+   Tensor Indexing and Storage
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#size">
+     Size
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#offset">
+     Offset
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#stride">
+     Stride
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sub-tensors-are-views">
+     Sub-Tensors are views
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#n-dimensional-indexing-for-row-major-arrays">
+   N-dimensional Indexing for Row Major arrays
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pytorch-mixes-row-major-and-column-major-indexing">
+     PyTorch mixes Row Major and Column Major indexing
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#making-an-array-contiguous">
+     Making an Array Contiguous
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#moving-tensors-to-the-gpu">
+   Moving Tensors to the GPU
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#transferring-numpy-arrays-to-pytorch">
+     Transferring Numpy arrays to PyTorch
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#saving-and-loading-tensors">
+     Saving and loading Tensors
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+        
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="pytorch-tensor-manual">
+<h1>PyTorch Tensor Manual<a class="headerlink" href="#pytorch-tensor-manual" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tensors">
+<h2>Tensors<a class="headerlink" href="#tensors" title="Permalink to this headline">¶</a></h2>
+<p>Tensors are a sequential multidimensional array. To get started fire up a python interpreter and begin with <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">torch</span></code>.</p>
+<ul class="simple">
+<li><p>To create a tensor of ones of size <span class="math notranslate nohighlight">\(n=10\)</span> enter, <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">torch.ones(10)</span></code>.</p></li>
+<li><p>To create a tensor of a single number enter, <code class="docutils literal notranslate"><span class="pre">p</span> <span class="pre">=</span> <span class="pre">torch.tensor(4.0)</span></code>.</p></li>
+<li><p>To check the type of a tensor enter, <code class="docutils literal notranslate"><span class="pre">p.dtype</span></code>.</p></li>
+<li><p>Torch can also create a tensor from a list, <code class="docutils literal notranslate"><span class="pre">v</span> <span class="pre">=</span> <span class="pre">torch.tensor([1,2,3,4,5.])</span></code></p></li>
+<li><p>To create a tensor with zeros. <code class="docutils literal notranslate"><span class="pre">pts</span> <span class="pre">=</span> <span class="pre">torch.zeros(6)</span></code> creates a tensor with 6 zeros.</p></li>
+</ul>
+<p>Notice the <span class="math notranslate nohighlight">\(\color{red}{.}\)</span> at the end instead of <span class="math notranslate nohighlight">\(5\)</span> without a period. This will make sure that the tensor is of type <code class="docutils literal notranslate"><span class="pre">float32</span></code>. The whole tensor should be of a uniform type, so the integers in the beginning will also be <strong>upcast</strong> to <code class="docutils literal notranslate"><span class="pre">float32</span></code>.</p>
+<blockquote>
+<div><p>PyTorch tensors (or numpy arrays) are views over contiguous memory blocks that contain <a class="reference external" href="https://stackoverflow.com/questions/13055/what-is-boxing-and-unboxing-and-what-are-the-trade-offs"><strong>unboxed</strong></a> C numeric types rather than python objects.</p>
+</div></blockquote>
+<p>Tensors thus require a fixed amount of memory per item stored and a small amount of overhead to store dimensions and the data type associated with the tensor.</p>
+<div class="section" id="tensors-of-more-than-1-dimension">
+<h3>Tensors of more than 1 dimension<a class="headerlink" href="#tensors-of-more-than-1-dimension" title="Permalink to this headline">¶</a></h3>
+<p>We can also create a 2-D tensor from a list of lists.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">points</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]])</span>
+</pre></div>
+</div>
+<ul>
+<li><p>Here we can access the first row by indices starting as zero like so, <code class="docutils literal notranslate"><span class="pre">points[0]</span></code>.</p></li>
+<li><p>We can also ask the tensor about its shape by leveraging the <code class="docutils literal notranslate"><span class="pre">.shape</span></code> attribute like so, <code class="docutils literal notranslate"><span class="pre">points.shape</span></code>.</p></li>
+<li><p>If we wish to create an <span class="math notranslate nohighlight">\(m\times n\)</span> tensor of ones or zeros, we can specify the dimensions as arguments as shown,
+<code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">torch.ones(m,</span> <span class="pre">n)</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span> <span class="pre">=</span> <span class="pre">torch.zeros(m,</span> <span class="pre">n)</span></code>.</p></li>
+<li><p>Here, we need to use two indices to access a single element.</p></li>
+<li><p>The code <code class="docutils literal notranslate"><span class="pre">points[i,</span> <span class="pre">j]</span></code> accesses the <span class="math notranslate nohighlight">\(i,j\)</span>th element in the <code class="docutils literal notranslate"><span class="pre">points</span></code> tensor.</p></li>
+<li><p>We can access a single row of the data set by using a single index.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">points[i]</span></code> returns a new 1D tensor of the <span class="math notranslate nohighlight">\(i\)</span>th element. <strong>This is a view of the underlying data.</strong></p>
+<blockquote>
+<div><p>A new chunk of memory was not allocated. Only pointers were manipulated to gain access to this view.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="indexing-tensors">
+<h3>Indexing Tensors<a class="headerlink" href="#indexing-tensors" title="Permalink to this headline">¶</a></h3>
+<p>To access rows and columns we can use slicing as in <code class="docutils literal notranslate"><span class="pre">numpy</span></code>.</p>
+<p>For the <code class="docutils literal notranslate"><span class="pre">points</span></code> data we can access all the x-coords by using <code class="docutils literal notranslate"><span class="pre">:</span></code> like so, <code class="docutils literal notranslate"><span class="pre">points[:,</span> <span class="pre">0]</span></code>.
+Here we obtain all the rows of the first column.</p>
+<p>Similarly we can also obtain all the rows between <code class="docutils literal notranslate"><span class="pre">2</span></code> to <code class="docutils literal notranslate"><span class="pre">8</span></code> like so,<code class="docutils literal notranslate"><span class="pre">points[2:8,</span> <span class="pre">:]</span></code>.</p>
+<p>We can also add a dimension where required by doing <code class="docutils literal notranslate"><span class="pre">points[None]</span></code>. This is similar to <code class="docutils literal notranslate"><span class="pre">np.newaxis</span></code> in numpy.</p>
+<blockquote>
+<div><p>In PyTorch since many dimensions are present in common use cases, it is important to ensure that the order and meaning of these dimensions are tracked.</p>
+</div></blockquote>
+</div>
+<div class="section" id="broadcasting">
+<h3>Broadcasting<a class="headerlink" href="#broadcasting" title="Permalink to this headline">¶</a></h3>
+<p>A smaller tensor can be broadcast over a larger tensor while performing an operation. For example, consider a tensor of shape <code class="docutils literal notranslate"><span class="pre">(3,</span> <span class="pre">5,</span> <span class="pre">5)</span></code> which can be through of as 3, 2-D arrays of shape <code class="docutils literal notranslate"><span class="pre">(5,</span> <span class="pre">5)</span></code>. We wish to multiply each <code class="docutils literal notranslate"><span class="pre">(5,</span> <span class="pre">5)</span></code> tensor with three numbers stored in a tensor of shape (3)`. We can’t multiply these shapes directly, but instead must align the smaller tensor to the larger one by following these rules.</p>
+<div class="section" id="broadcasting-rules">
+<h4>Broadcasting Rules<a class="headerlink" href="#broadcasting-rules" title="Permalink to this headline">¶</a></h4>
+<p>To ensure that two tensors are “broadcastable” start from the trailing dimension for both tensors.</p>
+<p>Every dimension from the trailing dimension must</p>
+<ol class="simple">
+<li><p>Either be equal.</p></li>
+<li><p>One of them must be 1.</p></li>
+<li><p>If one of the tensors has a smaller dimension the last dimension that lines up with that of the larger tensor must be equal or 1.</p></li>
+</ol>
+<p>In order to multiply the tensors of shape <code class="docutils literal notranslate"><span class="pre">(3,</span> <span class="pre">5,</span> <span class="pre">5)</span></code> and <code class="docutils literal notranslate"><span class="pre">(3)</span></code> we must add dimensions to the end of <code class="docutils literal notranslate"><span class="pre">(3)</span></code> using <code class="docutils literal notranslate"><span class="pre">unsqueeze</span></code> or using <code class="docutils literal notranslate"><span class="pre">None</span></code>. This is demonstrated in the snippet below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="c1"># multiplies each 5*5 array in a by one value in b</span>
+<span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="c1"># or b.unsqueeze(-1).unsqueeze(-1), yes thats two .unsqueeze(-1)&#39;s</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="tensor-element-types">
+<h2>Tensor element types<a class="headerlink" href="#tensor-element-types" title="Permalink to this headline">¶</a></h2>
+<p>Using standard python data types are not going to cut it. Python makes use of the OOP paradigm for even fundamental objects like integers and floating point numbers. This means using tensors in PyTorch or numpy arrays is going to yield a massive speedup because we’re not keeping track of unwanted attributes that add to the overhead.</p>
+<p>Python stores numbers as objects with reference counting (for garbage collection) and so on. This can’t scale to millions of numbers.</p>
+<p>Lists in pythons are meant for sequential collections of objects: Objects can be very diverse in size and type. This makes allocating space to store them contiguously for faster access difficult. This means that python stores them non-contiguously. This makes it very inefficient to do dot products or to map functions on to arrays.</p>
+<p>Python is interpreted and not compiled. For each command in python, we pay the price of converting into machine code. This is slower than C or C++ which is compiled into fast machine code.</p>
+<p>PyTorch prefers the compiled paradigm to implement tensors and arrays which makes these problems go away.</p>
+<p>PyTorch also prefers homohenous arrays i.e. arrays that contain elements of the same type.</p>
+<p>The only information PyTorch needs is data type being stored and how many such values to determine the required space needed.</p>
+<div class="section" id="numeric-data-types-in-pytorch">
+<h3>Numeric Data Types in Pytorch<a class="headerlink" href="#numeric-data-types-in-pytorch" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="floating-point-types">
+<h4>Floating Point Types<a class="headerlink" href="#floating-point-types" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">torch.float32</span></code> or <code class="docutils literal notranslate"><span class="pre">torch.float</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">torch.float64</span></code> or <code class="docutils literal notranslate"><span class="pre">torch.double</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">torch.float16</span></code> or <code class="docutils literal notranslate"><span class="pre">torch.half</span></code></p>
+</div>
+<div class="section" id="integer-types">
+<h4>Integer Types<a class="headerlink" href="#integer-types" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">torch.int8</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">torch.uint8</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">torch.int16</span></code> or <code class="docutils literal notranslate"><span class="pre">torch.short</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">torch.int32</span></code> or <code class="docutils literal notranslate"><span class="pre">torch.int</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">torch.int64</span></code> or <code class="docutils literal notranslate"><span class="pre">torch.long</span></code></p>
+</div>
+<div class="section" id="boolean-types">
+<h4>Boolean Types<a class="headerlink" href="#boolean-types" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">torch.bool</span></code></p>
+</div>
+<div class="section" id="general-info-about-types">
+<h4>General Info about types<a class="headerlink" href="#general-info-about-types" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">torch.float16</span></code> or <code class="docutils literal notranslate"><span class="pre">torch.half</span></code> are available mostly on GPU’s and are not native to modern(intel) CPU’s. Can be used to reduce the footprint of a model for a minor reduction in accuracy.
+<code class="docutils literal notranslate"><span class="pre">torch.bool</span></code> tensors are produced when predicates are applied to tensors, such as <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>. The <code class="docutils literal notranslate"><span class="pre">torch.where(condition,</span> <span class="pre">x,</span> <span class="pre">y)</span></code> makes use of these <code class="docutils literal notranslate"><span class="pre">bool</span></code> tensors for the <code class="docutils literal notranslate"><span class="pre">condition</span></code> parameter as illustrated below.</p>
+</div></blockquote>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+                 <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">a</span>
+<span class="c1">## Out</span>
+<span class="c1"># tensor([[0, 1, 2, 3, 4],</span>
+<span class="c1">#        [5, 6, 7, 8, 9]])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+
+ <span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="mf">4.</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="c1">## Out</span>
+<span class="c1"># tensor([[100., 100., 100., 100., 100.],</span>
+<span class="c1">#        [  5.,   6.,   7.,   8.,   9.]])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="managing-a-tensors-type-using-dtype">
+<h3>Managing a Tensors Type using <code class="docutils literal notranslate"><span class="pre">dtype</span></code><a class="headerlink" href="#managing-a-tensors-type-using-dtype" title="Permalink to this headline">¶</a></h3>
+<p>We can manipulate a tensors data type using the <code class="docutils literal notranslate"><span class="pre">dtype</span></code> attribute or argument.</p>
+<p>If we wish to construct a tensor from a list, we can pass in the <code class="docutils literal notranslate"><span class="pre">dtype</span></code> argument as seen below.</p>
+<p><code class="docutils literal notranslate"><span class="pre">t</span> <span class="pre">=</span> <span class="pre">torch.tensor([[1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4]],</span> <span class="pre">dtype=torch.short)</span></code></p>
+<p>We can use this to construct a tensor using any of the other standard functions used to construct constant tensors as well.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can also use casting methods as seen below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">double</span><span class="p">()</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zero</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">short</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The more handy <code class="docutils literal notranslate"><span class="pre">.to()</span></code> is also plausible. This is useful because it can do more than just change the type.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>From PyTorch 1.3 onwards, when mixing types, the lower type is cast to the higher one. For eg. when multiplying a float tensor and a short tensor, the result will be a float tensor.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="tensor-ops">
+<h2>Tensor Ops<a class="headerlink" href="#tensor-ops" title="Permalink to this headline">¶</a></h2>
+<p>Refer to this cheatsheet for a full list of operations: <a class="reference external" href="https://pytorch.org/tutorials/beginner/ptcheat.html">https://pytorch.org/tutorials/beginner/ptcheat.html</a>.</p>
+</div>
+<div class="section" id="tensor-indexing-and-storage">
+<h2>Tensor Indexing and Storage<a class="headerlink" href="#tensor-indexing-and-storage" title="Permalink to this headline">¶</a></h2>
+<p>Three attributes of a tensor define how it is stored in memory. Size, offset and stride.</p>
+<p>Common ways of storing and allocating contiguous blocks of multidimensional memory are the following:</p>
+<blockquote>
+<div><p><strong>Row Major Order</strong>: Memory is allocated as contiguous rows.
+<strong>Column Major Order</strong>: Memory is allocated as contiguous columns.
+<em>This determines the order of the indices considered when iterating over elements of the array. As demonstrated <a class="reference external" href="https://eli.thegreenplace.net/2015/memory-layout-of-multi-dimensional-arrays">here</a> the order plays a huge role in the efficiency with which the entire array is traversed.</em></p>
+</div></blockquote>
+<div class="section" id="size">
+<h3>Size<a class="headerlink" href="#size" title="Permalink to this headline">¶</a></h3>
+<p>Tuple that indicates how many elements are present across each dimension.</p>
+</div>
+<div class="section" id="offset">
+<h3>Offset<a class="headerlink" href="#offset" title="Permalink to this headline">¶</a></h3>
+<p>Indicates how many storage blocks need to be skipped to obtain a particular element.</p>
+</div>
+<div class="section" id="stride">
+<h3>Stride<a class="headerlink" href="#stride" title="Permalink to this headline">¶</a></h3>
+<p>Tuple that indicates the the number of storage elements that need to be skipped to obtain the next element along each dimension.</p>
+<p>Examples:</p>
+<p>Consider the 3-D Array below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span> <span class="c1"># Choosing small dims</span>
+<span class="n">rands</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">rands</span><span class="o">.</span><span class="n">storage</span><span class="p">()</span>
+
+<span class="sd">&#39;&#39;&#39; Out</span>
+<span class="sd">-0.2829638719558716</span>
+<span class="sd"> -1.1649523973464966</span>
+<span class="sd"> 1.3321882486343384</span>
+<span class="sd"> 1.3248190879821777</span>
+<span class="sd"> -0.3670113682746887</span>
+<span class="sd"> 1.4062683582305908</span>
+<span class="sd"> -1.4656304121017456</span>
+<span class="sd"> -0.1982385367155075</span>
+<span class="sd"> 0.659064531326294</span>
+<span class="sd"> 0.6156697869300842</span>
+<span class="sd"> 1.385794758796692</span>
+<span class="sd"> -0.8989276885986328</span>
+<span class="sd"> -0.7524341940879822</span>
+<span class="sd"> 0.6367485523223877</span>
+<span class="sd"> 1.1766417026519775</span>
+<span class="sd"> -0.19177700579166412</span>
+<span class="sd"> -0.02886893041431904</span>
+<span class="sd"> 1.017943263053894</span>
+<span class="sd"> -1.3301843404769897</span>
+<span class="sd"> 0.005868543870747089</span>
+<span class="sd"> -0.21604008972644806</span>
+<span class="sd"> 0.825073778629303</span>
+<span class="sd"> -0.7951344847679138</span>
+<span class="sd"> 0.4247194528579712</span>
+<span class="sd">[torch.FloatStorage of size 24]</span>
+<span class="sd">&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+<p>This output indicates that we have allocated a contiguous block of 24 elements.</p>
+<p>To look at what the strides for this tensor look like, we use the <code class="docutils literal notranslate"><span class="pre">stride()</span></code> function.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rands</span><span class="o">.</span><span class="n">stride</span><span class="p">()</span>
+
+<span class="c1">## Out</span>
+<span class="c1"># (12, 4, 1)</span>
+</pre></div>
+</div>
+<p>This means that the offset of the second 3x4 matrix in this array of random numbers is 12 as indicated by,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rands</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">storage_offset</span><span class="p">()</span>
+<span class="c1">## Out</span>
+<span class="c1"># 12</span>
+<span class="n">rands</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="sd">&#39;&#39;&#39; Out</span>
+<span class="sd">tensor([[-0.7524,  0.6367,  1.1766, -0.1918],</span>
+<span class="sd">        [-0.0289,  1.0179, -1.3302,  0.0059],</span>
+<span class="sd">        [-0.2160,  0.8251, -0.7951,  0.4247]])</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="n">rands</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">stride</span><span class="p">()</span>
+<span class="c1"># Out</span>
+<span class="c1"># (4, 1)</span>
+</pre></div>
+</div>
+<p>Also notice that the strides of the first 2-D array indicates that the tensor is stored as contiguous rows which is row major order.</p>
+</div>
+<div class="section" id="sub-tensors-are-views">
+<h3>Sub-Tensors are views<a class="headerlink" href="#sub-tensors-are-views" title="Permalink to this headline">¶</a></h3>
+<p>If we choose to reassign the first element of our tensor from the previous example we are left with a view into the original tensors storage. Thus re-assigning any element in this view will alter the original storage as well as demonstrated below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">rands</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">888</span>
+
+<span class="n">rands</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Out:</span>
+<span class="sd">tensor([[[-2.8296e-01, -1.1650e+00,  1.3322e+00,  1.3248e+00],</span>
+<span class="sd">         [-3.6701e-01,  1.4063e+00, -1.4656e+00, -1.9824e-01],</span>
+<span class="sd">         [ 6.5906e-01,  6.1567e-01,  1.3858e+00, -8.9893e-01]],</span>
+
+<span class="sd">        [[-7.5243e-01,  6.3675e-01,  1.1766e+00, -1.9178e-01],</span>
+<span class="sd">         [-2.8869e-02,  1.0179e+00, -1.3302e+00,  5.8685e-03],</span>
+<span class="sd">         [-2.1604e-01,  8.2507e-01, -7.9513e-01,  8.8800e+02]]])</span>
+<span class="sd">&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+<p>This may not be desirable thus we can clone the original tensor which allocates a new and different memory block. We can do this by using, <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">rands2</span> <span class="pre">=</span> <span class="pre">rands.clone()</span></code></p>
+</div>
+</div>
+<div class="section" id="n-dimensional-indexing-for-row-major-arrays">
+<h2>N-dimensional Indexing for Row Major arrays<a class="headerlink" href="#n-dimensional-indexing-for-row-major-arrays" title="Permalink to this headline">¶</a></h2>
+<p>Suppose we have an n-dimensional array of dimensions <span class="math notranslate nohighlight">\(d_1, \cdots, d_n\)</span>.</p>
+<p>To access an individual element we need to provide an index of <span class="math notranslate nohighlight">\(n\)</span> numbers given as <span class="math notranslate nohighlight">\(a_1, \cdots, a_n\)</span>.</p>
+<p>The offset of this element can be computed as follows
+<span class="math notranslate nohighlight">\(offset = a_n + d_n (a_{n-1} + d_{n-1}(a_{n-2} + d_{n-2}(\cdots)))=a_n + \sum_{i=1}^{n - 1}\lbrack\Pi_{j=i+1}^n d_j \rbrack a_i\)</span></p>
+<p>For 3-D arrays this generalizes to:</p>
+<p><span class="math notranslate nohighlight">\(offset = a_3 + a_2 \cdot  d_3 + a_1 (d_2 \cdot d_3)\)</span> for an element with an index <span class="math notranslate nohighlight">\((a_1, a_2, a_3)\)</span>.</p>
+<p>and <code class="docutils literal notranslate"><span class="pre">offset</span> <span class="pre">=</span> <span class="pre">a_3</span> <span class="pre">+</span> <span class="pre">a_2</span> <span class="pre">*</span> <span class="pre">stride[1]</span> <span class="pre">+</span> <span class="pre">a_1</span> <span class="pre">*</span> <span class="pre">stride[0]</span> <span class="pre">*</span> <span class="pre">stride[1]</span></code> in PyTorch.</p>
+<div class="section" id="pytorch-mixes-row-major-and-column-major-indexing">
+<h3>PyTorch mixes Row Major and Column Major indexing<a class="headerlink" href="#pytorch-mixes-row-major-and-column-major-indexing" title="Permalink to this headline">¶</a></h3>
+<p>This is done to avoid unnecessary allocation of memory.</p>
+<p>Example:</p>
+<p>If we create a 2-D array and transposing it, using <code class="docutils literal notranslate"><span class="pre">.transpose()</span></code> or <code class="docutils literal notranslate"><span class="pre">.t()</span></code> as a shorthand PyTorch simply creates a new tensor object with the strides reversed.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">35</span><span class="p">]:</span> <span class="n">rand_2d</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">36</span><span class="p">]:</span> <span class="n">rand_2d</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Out[36]:</span>
+<span class="sd">tensor([[0.1995, 0.3417, 0.2173, 0.1970, 0.3338],</span>
+<span class="sd">        [0.7093, 0.3297, 0.5090, 0.3352, 0.6757]])</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="n">rand_2d</span><span class="o">.</span><span class="n">stride</span><span class="p">()</span>
+
+<span class="c1"># Out[37]: (5, 1)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">38</span><span class="p">]:</span> <span class="n">rand_2d_t</span> <span class="o">=</span> <span class="n">rand_2d</span><span class="o">.</span><span class="n">t</span><span class="p">()</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">39</span><span class="p">]:</span> <span class="n">rand_2d_t</span><span class="o">.</span><span class="n">stride</span><span class="p">()</span>
+<span class="c1"># Out [40]: (1, 5)</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">40</span><span class="p">]:</span> <span class="n">rand_2d_t</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">9009</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">41</span><span class="p">]:</span> <span class="n">rand_2d</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Out[41]:</span>
+<span class="sd">tensor([[1.9947e-01, 3.4166e-01, 2.1729e-01, 1.9695e-01, 3.3377e-01],</span>
+<span class="sd">        [7.0934e-01, 9.0090e+03, 5.0896e-01, 3.3519e-01, 6.7570e-01]])</span>
+<span class="sd">&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>From a PyTorch perspective, the transposed array in the above example is <strong>not contiguous</strong>. The reasoning being that the convention in PyTorch is to consider row major order arrays as contiguous.</p>
+</div></blockquote>
+</div>
+<div class="section" id="making-an-array-contiguous">
+<h3>Making an Array Contiguous<a class="headerlink" href="#making-an-array-contiguous" title="Permalink to this headline">¶</a></h3>
+<p>Certain operations are only permitted on contiguous arrays in PyTorch. It is important to convert an array to be contiguous if it is not using the <code class="docutils literal notranslate"><span class="pre">.contiguous()</span></code>function on an array.</p>
+<p>If the array is already contiguous, this operation does nothing else it allocates a new memory block that is contiguous and reassigns the tensor to it.</p>
+</div>
+</div>
+<div class="section" id="moving-tensors-to-the-gpu">
+<h2>Moving Tensors to the GPU<a class="headerlink" href="#moving-tensors-to-the-gpu" title="Permalink to this headline">¶</a></h2>
+<p>Tensors in PyTorch can live on the GPU as well.</p>
+<p>GPU’s use the data local processing paradigm.</p>
+<p>They are massively parallel integrated circuit’s that accelerate the processing of data especially for operations like dot products and convolutions that are common to Deep Learning.</p>
+<p>GPU’s are associated with a large amount of RAM that is specific to the GPU and is not shared by the CPU.</p>
+<p>Furthermore this RAM is equipped with several processing units that operate on segments of memory local to a particular block of RAM.</p>
+<p>Operations that need to occur on a specific range of indices within tensors are executed in parallel local to the memory regions they map to.</p>
+<p>We can assign a tensor to a GPU in PyTorch by using the <code class="docutils literal notranslate"><span class="pre">.to(device=&quot;cuda&quot;)</span></code> function on any tensor.</p>
+<p>While creating a tensor, we can also use any tensor creation method or function and specify the device as seen in this example <code class="docutils literal notranslate"><span class="pre">t</span> <span class="pre">=</span> <span class="pre">torch.ones(50,</span> <span class="pre">device=&quot;cuda&quot;)</span></code></p>
+<p>On devices with more than 1 GPU we can specify which device the tensor is allocated to by using the following convention. <code class="docutils literal notranslate"><span class="pre">t</span> <span class="pre">=</span> <span class="pre">torch.ones(50,</span> <span class="pre">device=&quot;cuda:0&quot;)</span></code>.</p>
+<p>GPU’s are zero indexed thus if we have two GPU’s we can allocate a tensor on the second GPU by doing <code class="docutils literal notranslate"><span class="pre">t</span> <span class="pre">=</span> <span class="pre">torch.randn(3,</span> <span class="pre">5,</span> <span class="pre">5,</span> <span class="pre">device=&quot;cuda:1&quot;)</span></code></p>
+<p>This form of addressing GPU’s also works with the <code class="docutils literal notranslate"><span class="pre">to</span></code> function as seen, <code class="docutils literal notranslate"><span class="pre">t</span> <span class="pre">=</span> <span class="pre">torch.ones(1,2,3).to(device=&quot;cuda:0&quot;)</span></code> function.</p>
+<p>To transfer a tensor back to the CPU, we can do simply say <code class="docutils literal notranslate"><span class="pre">device=&quot;cpu&quot;</span></code> in any using the <code class="docutils literal notranslate"><span class="pre">.to</span></code> attribute.</p>
+<p>Tensors by default are allocated to the CPU using constructors.</p>
+<div class="section" id="transferring-numpy-arrays-to-pytorch">
+<h3>Transferring Numpy arrays to PyTorch<a class="headerlink" href="#transferring-numpy-arrays-to-pytorch" title="Permalink to this headline">¶</a></h3>
+<p>We can use the <code class="docutils literal notranslate"><span class="pre">t</span> <span class="pre">=</span> <span class="pre">torch.from_numpy(np.arange(10))</span></code> constructor to turn a numpy array into a tensor. This will preserve the dimensions and shape as in numpy.</p>
+<p>We can also use the <code class="docutils literal notranslate"><span class="pre">t.numpy()</span></code> function on a tensor to turn it back into a numpy array.</p>
+<blockquote>
+<div><p>Numpy arrays are by default <code class="docutils literal notranslate"><span class="pre">float64</span></code>. In PyTorch we generally use <code class="docutils literal notranslate"><span class="pre">float32</span></code> converting numpy arrays to <code class="docutils literal notranslate"><span class="pre">float32</span></code> using the <code class="docutils literal notranslate"><span class="pre">.to(dtype=torch.float32)</span></code> function is generally a good idea.</p>
+</div></blockquote>
+</div>
+<div class="section" id="saving-and-loading-tensors">
+<h3>Saving and loading Tensors<a class="headerlink" href="#saving-and-loading-tensors" title="Permalink to this headline">¶</a></h3>
+<p>We can use the <code class="docutils literal notranslate"><span class="pre">torch.save(tensor,</span> <span class="pre">&quot;tensor.t&quot;)</span></code> function.</p>
+<p>We can also load the tensor using <code class="docutils literal notranslate"><span class="pre">torch.load(tensor,</span> <span class="pre">&quot;tensor.t&quot;)</span></code></p>
+<p>Resoures: Deep Learning with PyTorch, Eli Stevens, Luca Antiga, Thomas Viehman</p>
+</div>
+</div>
+</div>
+
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="root.html" title="previous page">QuickStart PyTorch</a>
+    <a class='right-next' id="next-link" href="pytorch.image-manipulation-manual.html" title="next page">PyTorch Image Manipulation Manual</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Adarsh Jois<br/>
+        
+            &copy; Copyright 2021, Adarsh Jois.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

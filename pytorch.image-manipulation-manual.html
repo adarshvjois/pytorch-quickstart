@@ -1,0 +1,544 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PyTorch Image Manipulation Manual &#8212; PyTorch Quick Start  documentation</title>
+    
+  <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="PyTorch Dataloader and Dataset Manual" href="pytorch.dataloader-and-dataset-manual.html" />
+    <link rel="prev" title="PyTorch Tensor Manual" href="pytorch.tensor-manual.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="index.html">
+  
+  
+  <h1 class="site-logo" id="site-title">PyTorch Quick Start  documentation</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <p class="caption collapsible-parent">
+ <span class="caption-text">
+  Contents:
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="root.html">
+   QuickStart PyTorch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pytorch.tensor-manual.html">
+   PyTorch Tensor Manual
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   PyTorch Image Manipulation Manual
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pytorch.dataloader-and-dataset-manual.html">
+   PyTorch Dataloader and Dataset Manual
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/pytorch.image-manipulation-manual.md.txt"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#using-imageio">
+   Using
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     imageio
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#creating-batches-of-images">
+   Creating Batches of Images
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#using-openslide-to-load-whole-slide-images">
+   Using OpenSlide to load whole slide images
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#whole-slide-images-wsi">
+   Whole-Slide Images (WSI)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#utility-of-openslide">
+   Utility of OpenSlide
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#basic-usage-of-openslide-in-python">
+   Basic usage of OpenSlide in Python
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#reading-the-whole-slide-image-as-a-python-object">
+     Reading the Whole-Slide Image as a python Object
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#down-sampling-factors">
+     Down-sampling Factors
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#other-properties-attribute">
+     Other properties attribute
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#useful-properties-of-the-wsi">
+     Useful
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       .properties
+      </span>
+     </code>
+     of the WSI
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reading-a-region-from-the-slide">
+   Reading a region from the slide
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reading-the-non-empty-region-of-the-slide">
+   Reading the non-empty region of the slide
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="pytorch-image-manipulation-manual">
+<h1>PyTorch Image Manipulation Manual<a class="headerlink" href="#pytorch-image-manipulation-manual" title="Permalink to this headline">¶</a></h1>
+<p>Here we outline a few simple packages and their capabilities to work with images.</p>
+<div class="section" id="using-imageio">
+<h2>Using <code class="docutils literal notranslate"><span class="pre">imageio</span></code><a class="headerlink" href="#using-imageio" title="Permalink to this headline">¶</a></h2>
+<p>We import the <code class="docutils literal notranslate"><span class="pre">imageio</span></code> package and use the <code class="docutils literal notranslate"><span class="pre">imageio.imread</span></code> function to read an image.</p>
+<p>This imports an image as a numpy array in the <span class="math notranslate nohighlight">\(H\times W\times C\)</span> arrangement.</p>
+<p>Here <span class="math notranslate nohighlight">\(H\)</span> is height <span class="math notranslate nohighlight">\(W\)</span> is width and <span class="math notranslate nohighlight">\(C\)</span> is channels.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">imageio</span>
+
+<span class="n">img_arr</span> <span class="o">=</span> <span class="n">imageio</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;https://i.redd.it/1wel0f8sbdl41.jpg&#39;</span><span class="p">)</span>
+<span class="n">img_arr</span><span class="o">.</span><span class="n">shape</span>
+<span class="c1">## Out:</span>
+<span class="c1"># (&lt;H&gt;, &lt;W&gt;, &lt;C&gt;)</span>
+</pre></div>
+</div>
+<p>With PyTorch we’re interested in converting this to the <span class="math notranslate nohighlight">\(C\times H \times W\)</span> format since convolutions in PyTorch expect this arrangement.</p>
+<p>We can do so using the <code class="docutils literal notranslate"><span class="pre">.permute()</span></code> attribute after converting the numpy array into a tensor.</p>
+<p>We can do the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="n">img_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">img_arr</span><span class="p">)</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">img_t</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># C x H x W</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-batches-of-images">
+<h2>Creating Batches of Images<a class="headerlink" href="#creating-batches-of-images" title="Permalink to this headline">¶</a></h2>
+<p>In PyTorch it is more efficient to pre-allocate memory where possible. To do so we shall first create a tensor of zeros of the appropriate shape and size as demonstrated.</p>
+<p>We will simply assume that a list of image file names is provided to us and we are to randomly select <span class="math notranslate nohighlight">\(n\)</span> images to create a batch.</p>
+<p>We will also assume that these images are of the same resolution and have the same number of channels for simplicity.</p>
+<p>Prior to using this for RGB images it is a good idea to think about whether or not these images have an alpha channel that needs to be ignored.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">imageio</span>
+
+<span class="k">def</span> <span class="nf">create_batch</span><span class="p">(</span><span class="n">image_filenames</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+  <span class="n">sample</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">image_filenames</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+  <span class="n">imgs</span> <span class="o">=</span> <span class="p">[</span><span class="n">imageio</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">sample</span><span class="p">]</span>
+  <span class="n">outs</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">img</span><span class="p">)</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span> <span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">imgs</span><span class="p">]</span>
+  <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">outs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+  <span class="n">batch</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeroes</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">batch</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">outs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>A more “PyTorch”-y way of doing this is described in the <a class="reference internal" href="pytorch.dataloader-and-dataset-manual.html"><span class="doc std std-doc">PyTorch Dataloader and Dataset Manual</span></a>.</p>
+</div></blockquote>
+</div>
+<div class="section" id="using-openslide-to-load-whole-slide-images">
+<h2>Using OpenSlide to load whole slide images<a class="headerlink" href="#using-openslide-to-load-whole-slide-images" title="Permalink to this headline">¶</a></h2>
+<p>References: <a class="reference external" href="https://openslide.org/api/python/">https://openslide.org/api/python/</a>
+and <a class="reference external" href="https://openslide.org/">https://openslide.org/</a>
+and <a class="reference external" href="https://openslide.org/docs/properties/">https://openslide.org/docs/properties/</a></p>
+</div>
+<div class="section" id="whole-slide-images-wsi">
+<h2>Whole-Slide Images (WSI)<a class="headerlink" href="#whole-slide-images-wsi" title="Permalink to this headline">¶</a></h2>
+<p>Whole-slide images (WSI) are high resolution images used in digital histopathology.</p>
+<blockquote>
+<div><p>**Histopathology****Histopathology** (compound of three <a class="reference external" href="https://en.wikipedia.org/wiki/Greek_language">Greek</a> words: ἱστός <strong>histos</strong> “tissue”, πάθος <strong>pathos</strong> “suffering”, and -λογία <strong><a class="reference external" href="https://en.wikipedia.org/wiki/-logy">-logia</a></strong> “study of”) refers to the <a class="reference external" href="https://en.wikipedia.org/wiki/Light_microscope">microscopic</a> examination of <a class="reference external" href="https://en.wikipedia.org/wiki/Tissue_(biology)">tissue</a> in order to study the manifestations of <a class="reference external" href="https://en.wikipedia.org/wiki/Disease">disease</a>. Specifically, in clinical medicine, histopathology refers to the examination of a <a class="reference external" href="https://en.wikipedia.org/wiki/Biopsy">biopsy</a> or surgical <a class="reference external" href="https://en.wikipedia.org/wiki/Laboratory_specimen">specimen</a> by a <a class="reference external" href="https://en.wikipedia.org/wiki/Pathology">pathologist</a>, after the specimen has been processed and histological sections have been placed onto glass slides</p>
+</div></blockquote>
+<p>In terms of relative scale, looking for important artifacts within a WSI is like looking for something the size of a football in a football field.</p>
+<p>Since these images are such high resolution they also pose interesting computational challenges.</p>
+<p>The images uncompressed often exceed the amount of RAM available in commercial computers.</p>
+<p>This makes processing the image challenging since traditional image processing tools do not cater to such large images with immense detail.</p>
+<p>Whole-slide images occur in various formats meant to store large images that are retrieved from different microscope and imaging software vendors.</p>
+<p>Common formats are listed below:</p>
+<ul class="simple">
+<li><p>Aperio SVS</p></li>
+<li><p>Hamamatsu VMS</p></li>
+<li><p>Hamamatsu VMU</p></li>
+<li><p>Leica SCN</p></li>
+<li><p>3DHISTECH MRXS (“MIRAX”)</p></li>
+<li><p>Trestle TIFF</p></li>
+<li><p>Generic tiled TIFF.</p></li>
+</ul>
+</div>
+<div class="section" id="utility-of-openslide">
+<h2>Utility of OpenSlide<a class="headerlink" href="#utility-of-openslide" title="Permalink to this headline">¶</a></h2>
+<p>OpenSlide is a C program that efficiently manages the reading and utilization of WSI’s for a variety of formats.</p>
+<p>Since there is no agreed upon standard for WSI’s each vendor implements its own libraries and viewers.</p>
+<p>Furthermore, to protect intellectual property, these vendors obscure important details from these implementations.</p>
+<p>Thus the need for libraries like OpenSlide which bridges the divide by providing a free and Open Source solution to managing and reading WSI’s.</p>
+</div>
+<div class="section" id="basic-usage-of-openslide-in-python">
+<h2>Basic usage of OpenSlide in Python<a class="headerlink" href="#basic-usage-of-openslide-in-python" title="Permalink to this headline">¶</a></h2>
+<p>Imaging instrument manufacturers store WSI’s as multi-resolution images. These images are at fixed zoom levels.</p>
+<p>Open slide is used to read a small amount of a huge image available at a desired resolution that is closest to an available zoom level.</p>
+<div class="section" id="reading-the-whole-slide-image-as-a-python-object">
+<h3>Reading the Whole-Slide Image as a python Object<a class="headerlink" href="#reading-the-whole-slide-image-as-a-python-object" title="Permalink to this headline">¶</a></h3>
+<p>WSI files are usually files that range from a few 100MB to a few GB’s and have file extensions as mentioned above.</p>
+<p>OpenSlide uses a filename as a constructor and determines the vendor of the format using a combination of the filename and metadata present in the WSI file.</p>
+<p>To use OpenSlide we construct an OpenSlide object as demonstrated below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">openslide</span>
+
+<span class="n">wsi</span> <span class="o">=</span> <span class="n">openslide</span><span class="o">.</span><span class="n">OpenSlide</span><span class="p">(</span><span class="s1">&#39;&lt;filename&gt;&#39;</span><span class="p">)</span>
+<span class="n">wsi</span><span class="o">.</span><span class="n">dimensions</span>
+<span class="c1">## Out</span>
+<span class="c1"># (width, height) of the entire slide.</span>
+</pre></div>
+</div>
+<p>These properties greatly aid processing the WSI and we will focus on them a little in the next section.</p>
+</div>
+<div class="section" id="down-sampling-factors">
+<h3>Down-sampling Factors<a class="headerlink" href="#down-sampling-factors" title="Permalink to this headline">¶</a></h3>
+<p>We generally wish to see the resolutions of the down-sampling factors that are present in the WSI. This is done using the <code class="docutils literal notranslate"><span class="pre">level_dimensions</span></code> and <code class="docutils literal notranslate"><span class="pre">level_downsamples</span></code> attribute.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">openslide</span>
+
+<span class="n">wsi</span><span class="o">.</span><span class="n">level_dimensions</span>
+<span class="c1">##Out</span>
+<span class="c1"># ((53130, 153470),</span>
+<span class="c1"># (13283, 38368),</span>
+<span class="c1"># (3321, 9592),</span>
+<span class="c1"># (831, 2400),</span>
+<span class="c1"># (209, 601))</span>
+<span class="n">slide</span><span class="o">.</span><span class="n">level_downsamples</span>
+<span class="c1">##Out</span>
+<span class="c1"># (1.0,</span>
+<span class="c1"># 3.999898652415998,</span>
+<span class="c1"># 15.998992404088622,</span>
+<span class="c1"># 63.94042569193742,</span>
+<span class="c1"># 254.7841317103074)</span>
+</pre></div>
+</div>
+<p>As we can see from this example, the dimensions and down-sampling factors are present in the order of highest resolution to lowest (with 1x being the highest and approx. 255x being the lowest).</p>
+<blockquote>
+<div><p>These magnification factors are also referred to as levels. For a slide with 4 magnification levels we say that there are 0-3 levels with each level increasing in down-sampling factor. In this example level 0 corresponds to a 1x down-sampling, level 2 corresponds to ~4x downsampling and so on.</p>
+</div></blockquote>
+</div>
+<div class="section" id="other-properties-attribute">
+<h3>Other properties attribute<a class="headerlink" href="#other-properties-attribute" title="Permalink to this headline">¶</a></h3>
+<p>To know more about the image that encapsulated by this file, a <code class="docutils literal notranslate"><span class="pre">properties</span></code> attribute is provided.</p>
+<p>We can access it using the following attribute but instead of directly using this attribute, this snippet will pretty print the Map object returned.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">wsi</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+                 <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">wsi</span><span class="o">.</span><span class="n">properties</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>Which outputs something like:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>leica.aperture:0.4
+leica.creation-date:2018-11-03T10:29:21.633Z
+leica.device-model:Leica SCN400;Leica SCN
+leica.device-version:1.5.1.10804 2012/05/10 13:29:07;1.5.1.10864
+leica.illumination-source:brightfield
+leica.objective:20
+openslide.bounds-height:44032
+openslide.bounds-width:40608
+openslide.bounds-x:4338
+openslide.bounds-y:54127
+openslide.level-count:5
+openslide.level[0].downsample:1
+openslide.level[0].height:153470
+openslide.level[0].width:53130
+openslide.level[1].downsample:3.9998986524159981
+openslide.level[1].height:38368
+openslide.level[1].width:13283
+openslide.level[2].downsample:15.998992404088622
+openslide.level[2].height:9592
+openslide.level[2].width:3321
+openslide.level[3].downsample:63.940425691937421
+openslide.level[3].height:2400
+openslide.level[3].width:831
+openslide.level[4].downsample:254.78413171030741
+openslide.level[4].height:601
+openslide.level[4].width:209
+openslide.mpp-x:0.5
+openslide.mpp-y:0.5
+openslide.objective-power:20
+openslide.quickhash-1:1318cf83f75c09612990b092b90a423ae8cf9785fa6c936abdf14cc3cda436ce
+openslide.region[0].height:44032
+openslide.region[0].width:40608
+openslide.region[0].x:4338
+openslide.region[0].y:54127
+openslide.vendor:leica
+tiff.ResolutionUnit:centimeter
+tiff.XResolution:20000
+tiff.YResolution:20000
+</pre></div>
+</div>
+</div>
+<div class="section" id="useful-properties-of-the-wsi">
+<h3>Useful <code class="docutils literal notranslate"><span class="pre">.properties</span></code> of the WSI<a class="headerlink" href="#useful-properties-of-the-wsi" title="Permalink to this headline">¶</a></h3>
+<p>There are three kinds of properties seen above.</p>
+<p>Manufacturer / Vendor specific properties starts with <code class="docutils literal notranslate"><span class="pre">leica.</span></code></p>
+<p>Format based properties starts with <code class="docutils literal notranslate"><span class="pre">tiff.</span></code></p>
+<p>Properties generates by OpenSlide. <code class="docutils literal notranslate"><span class="pre">openslide.</span></code></p>
+<p>We will focus on properties generated by OpenSlide, for more read the documentation <a class="reference external" href="https://openslide.org/docs/properties/">here</a></p>
+<p><code class="docutils literal notranslate"><span class="pre">openslide.bounds-width</span></code> and <code class="docutils literal notranslate"><span class="pre">openslide.bounds.height</span></code>: The width and height of the rectangle that bounds the non-empty region of the slide.</p>
+<p><code class="docutils literal notranslate"><span class="pre">openslide.bounds-x</span></code> and <code class="docutils literal notranslate"><span class="pre">openslide.bounds-y</span></code>: The X and Y coordinate of the top left corner of the non-empty region of the slide.</p>
+<p><code class="docutils literal notranslate"><span class="pre">openslide.mpp-x</span></code> and <code class="docutils literal notranslate"><span class="pre">openslide.mpp-y</span></code>: Microns per-pixel in the X and Y dimension of the slide at level 0.</p>
+<blockquote>
+<div><p><strong>These properties are not always present</strong> but when they are, they are highly useful.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="reading-a-region-from-the-slide">
+<h2>Reading a region from the slide<a class="headerlink" href="#reading-a-region-from-the-slide" title="Permalink to this headline">¶</a></h2>
+<p>To read a region from the slide we use the <code class="docutils literal notranslate"><span class="pre">.read_region</span></code> method on the WSI object created above.</p>
+<blockquote>
+<div><p>This function <strong>lazily</strong> reads a region of the WSI at the specified down-sampling level. The fact that this function does not load the entire WSI into RAM is critical to OpenSlide usability. It is important to note that it is easy to misuse this function since no memory checks are made to validate the arguments.</p>
+</div></blockquote>
+<p>Read region takes three arguments as described below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">location</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># the top left pixel</span>
+      <span class="c1"># in the level 0 reference frame</span>
+
+<span class="n">level</span> <span class="o">=</span> <span class="mi">3</span>         <span class="c1"># downsample factor chosen as a</span>
+      <span class="c1"># zero-based index into the</span>
+      <span class="c1"># wsi.level_dimensions attribute.</span>
+<span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span> <span class="c1"># Total size of the region to be read in</span>
+      <span class="c1"># at the downsampling level</span>
+        <span class="c1"># specified above.</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">wsi</span><span class="o">.</span><span class="n">read_region</span><span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+<span class="c1"># returns a PIL Image</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>Note that we have specified the size of the image to be <span class="math notranslate nohighlight">\(256\times256\)</span> to be read in at a down-sampling level of <span class="math notranslate nohighlight">\(3\)</span>. This is equivalent to reading a <span class="math notranslate nohighlight">\(256\times64, 256\times64\)</span> of the original WSI starting at the top right corner. This is because level <span class="math notranslate nohighlight">\(3\)</span> corresponds to <span class="math notranslate nohighlight">\(~64\)</span> in the <code class="docutils literal notranslate"><span class="pre">.level_downsamples</span></code> attribute as observed in the Down-sampling Factors section.</p>
+</div></blockquote>
+</div>
+<div class="section" id="reading-the-non-empty-region-of-the-slide">
+<h2>Reading the non-empty region of the slide<a class="headerlink" href="#reading-the-non-empty-region-of-the-slide" title="Permalink to this headline">¶</a></h2>
+<p>We must deal with the fact that the non-empty region is a rectangular region within the WSI surrounded by a black border that does not contain any information.</p>
+<p>Since we know how to read a non empty region and understand some of the attributes of we will proceed to design a function that reads a usable region of the slide.</p>
+<p>For this function we will need access to the following attributes of the slide, furnished by <code class="docutils literal notranslate"><span class="pre">openslide</span></code>.</p>
+<blockquote>
+<div><p><strong>Thus function will work for the simple case in which OpenSlide is able to determine the following attributes</strong> &gt; <code class="docutils literal notranslate"><span class="pre">openslide.bounds-height</span></code>, <code class="docutils literal notranslate"><span class="pre">openslide.bounds-width</span></code> &gt; <code class="docutils literal notranslate"><span class="pre">openslide.bounds-x</span></code> and <code class="docutils literal notranslate"><span class="pre">openslide.bounds-y</span></code>.</p>
+</div></blockquote>
+<p>We will use the <code class="docutils literal notranslate"><span class="pre">OpenSlide</span></code> object constructed above as a parameter to this function.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">read_ne_region</span><span class="p">(</span><span class="n">wsi</span><span class="p">,</span> <span class="n">top_left_x</span><span class="p">,</span> <span class="n">top_left_y</span><span class="p">,</span>
+                        <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+    <span class="n">ne_start_x</span><span class="p">,</span> <span class="n">ne_start_y</span> <span class="o">=</span> <span class="n">wsi</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;openslide.bounds-x&#39;</span><span class="p">],</span> <span class="n">wsi</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;openslide.bounds-y&#39;</span><span class="p">]</span>
+    <span class="n">max_width</span><span class="p">,</span> <span class="n">max_height</span> <span class="o">=</span> <span class="n">wsi</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;openslide.bounds-height&#39;</span><span class="p">],</span> <span class="n">wsi</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;openslide.bounds-width&#39;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">level</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">wsi</span><span class="o">.</span><span class="n">level_downsamples</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Level should be in the range </span><span class="si">{}</span><span class="s2"> to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">wsi</span><span class="o">.</span><span class="n">level_downsamples</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">downsampling_factor</span> <span class="o">=</span> <span class="n">wsi</span><span class="o">.</span><span class="n">level_downsamples</span><span class="p">[</span><span class="n">level</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">verbose</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downsampling factor chosen </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">downsampling_factor</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">width</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">max_width</span> <span class="o">//</span> <span class="n">downsampling_factor</span><span class="p">):</span>
+      <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Width should be less that </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">max_width</span> <span class="o">//</span> <span class="n">downsampling_factor</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">height</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">max_height</span> <span class="o">//</span> <span class="n">downsampling_factor</span><span class="p">):</span>
+      <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Height should be less that </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">max_height</span> <span class="o">//</span> <span class="n">downsampling_factor</span><span class="p">))</span>
+
+    <span class="n">ne_img</span> <span class="o">=</span> <span class="n">wsi</span><span class="o">.</span><span class="n">read_region</span><span class="p">((</span><span class="n">top_left_x</span><span class="p">,</span> <span class="n">top_left_y</span><span class="p">),</span>
+                              <span class="n">level</span><span class="p">,</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">ne_img</span>
+</pre></div>
+</div>
+<p>This function ensures that we read a non-empty region of the slide or raise errors where inputs either request for regions outside the non-empty regions or outside the slide.</p>
+</div>
+</div>
+
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="pytorch.tensor-manual.html" title="previous page">PyTorch Tensor Manual</a>
+    <a class='right-next' id="next-link" href="pytorch.dataloader-and-dataset-manual.html" title="next page">PyTorch Dataloader and Dataset Manual</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Adarsh Jois<br/>
+        
+            &copy; Copyright 2021, Adarsh Jois.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>
