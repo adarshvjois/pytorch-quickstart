@@ -68,19 +68,10 @@ and <https://openslide.org/docs/properties/>
 
 Whole-slide images (WSI) are high resolution images used in digital histopathology.
 
-> **Histopathology\*\***Histopathology\*\* (compound of three [Greek](https://en.wikipedia.org/wiki/Greek_language) words: ἱστός **histos** "tissue", πάθος **pathos** "suffering", and -λογία **[-logia](https://en.wikipedia.org/wiki/-logy)** "study of") refers to the [microscopic](https://en.wikipedia.org/wiki/Light_microscope) examination of [tissue](<https://en.wikipedia.org/wiki/Tissue_(biology)>) in order to study the manifestations of [disease](https://en.wikipedia.org/wiki/Disease). Specifically, in clinical medicine, histopathology refers to the examination of a [biopsy](https://en.wikipedia.org/wiki/Biopsy) or surgical [specimen](https://en.wikipedia.org/wiki/Laboratory_specimen) by a [pathologist](https://en.wikipedia.org/wiki/Pathology), after the specimen has been processed and histological sections have been placed onto glass slides
+> **Histopathology** (compound of three [Greek](https://en.wikipedia.org/wiki/Greek_language) words: ἱστός **histos** "tissue", πάθος **pathos** "suffering", and -λογία **[-logia](https://en.wikipedia.org/wiki/-logy)** "study of") refers to the [microscopic](https://en.wikipedia.org/wiki/Light_microscope) examination of [tissue](<https://en.wikipedia.org/wiki/Tissue_(biology)>) in order to study the manifestations of [disease](https://en.wikipedia.org/wiki/Disease). Specifically, in clinical medicine, histopathology refers to the examination of a [biopsy](https://en.wikipedia.org/wiki/Biopsy) or surgical [specimen](https://en.wikipedia.org/wiki/Laboratory_specimen) by a [pathologist](https://en.wikipedia.org/wiki/Pathology), after the specimen has been processed and histological sections have been placed onto glass slides
 
-In terms of relative scale, looking for important artifacts within a WSI is like looking for something the size of a football in a football field.
-
-Since these images are such high resolution they also pose interesting computational challenges.
-
-The images uncompressed often exceed the amount of RAM available in commercial computers.
-
-This makes processing the image challenging since traditional image processing tools do not cater to such large images with immense detail.
-
-Whole-slide images occur in various formats meant to store large images that are retrieved from different microscope and imaging software vendors.
-
-Common formats are listed below:
+In terms of relative scale, looking for important artifacts within a WSI is like looking for something the size of a football in a football field. Since these images are such high resolution they also pose interesting computational challenges. The images uncompressed often exceed the amount of RAM available in commercial computers. This makes processing the image challenging since traditional image processing tools do not cater to such large images with immense detail.
+Whole-slide images occur in various formats meant to store large images that are retrieved from different microscope and imaging software vendors. Common formats are listed below:
 
 - Aperio SVS
 - Hamamatsu VMS
@@ -92,27 +83,15 @@ Common formats are listed below:
 
 ## Utility of OpenSlide
 
-OpenSlide is a C program that efficiently manages the reading and utilization of WSI's for a variety of formats.
-
-Since there is no agreed upon standard for WSI's each vendor implements its own libraries and viewers.
-
-Furthermore, to protect intellectual property, these vendors obscure important details from these implementations.
-
-Thus the need for libraries like OpenSlide which bridges the divide by providing a free and Open Source solution to managing and reading WSI's.
+OpenSlide is a C program that efficiently manages the reading and utilization of WSI's for a variety of formats. Since there is no agreed upon standard for WSI's each vendor implements its own libraries and viewers. Furthermore, to protect intellectual property, these vendors obscure important details from these implementations. Thus the need for libraries like OpenSlide which bridges the divide by providing a free and Open Source solution to managing and reading WSI's.
 
 ## Basic usage of OpenSlide in Python
 
-Imaging instrument manufacturers store WSI's as multi-resolution images. These images are at fixed zoom levels.
-
-Open slide is used to read a small amount of a huge image available at a desired resolution that is closest to an available zoom level.
+Imaging instrument manufacturers store WSI's as multi-resolution images. These images are at fixed zoom levels. Open slide is used to read a small amount of a huge image available at a desired resolution that is closest to an available zoom level.
 
 ### Reading the Whole-Slide Image as a python Object
 
-WSI files are usually files that range from a few 100MB to a few GB's and have file extensions as mentioned above.
-
-OpenSlide uses a filename as a constructor and determines the vendor of the format using a combination of the filename and metadata present in the WSI file.
-
-To use OpenSlide we construct an OpenSlide object as demonstrated below.
+WSI files are usually files that range from a few 100MB to a few GB's and have file extensions as mentioned above. OpenSlide uses a filename as a constructor and determines the vendor of the format using a combination of the filename and metadata present in the WSI file. To use OpenSlide we construct an OpenSlide object as demonstrated below.
 
 ```python
 import openslide
@@ -154,9 +133,7 @@ As we can see from this example, the dimensions and down-sampling factors are pr
 
 ### Other properties attribute
 
-To know more about the image that encapsulated by this file, a `properties` attribute is provided.
-
-We can access it using the following attribute but instead of directly using this attribute, this snippet will pretty print the Map object returned.
+To know more about the image that encapsulated by this file, a `properties` attribute is provided. We can access it using the following attribute but instead of directly using this attribute, this snippet will pretty print the Map object returned.
 
 ```python
 print('\n'.join(["{}:{}".format(k, wsi.properties[k])
@@ -210,19 +187,15 @@ tiff.YResolution:20000
 
 There are three kinds of properties seen above.
 
-Manufacturer / Vendor specific properties starts with `leica.`
+- Manufacturer / Vendor specific properties starts with `leica.`
+- Format based properties starts with `tiff.`
+- Properties generated by OpenSlide. `openslide.`
 
-Format based properties starts with `tiff.`
+We will focus on properties generated by OpenSlide, for more read the documentation [here](https://openslide.org/docs/properties/).
 
-Properties generates by OpenSlide. `openslide.`
-
-We will focus on properties generated by OpenSlide, for more read the documentation [here](https://openslide.org/docs/properties/)
-
-`openslide.bounds-width` and `openslide.bounds.height`: The width and height of the rectangle that bounds the non-empty region of the slide.
-
-`openslide.bounds-x` and `openslide.bounds-y`: The X and Y coordinate of the top left corner of the non-empty region of the slide.
-
-`openslide.mpp-x` and `openslide.mpp-y`: Microns per-pixel in the X and Y dimension of the slide at level 0.
+- `openslide.bounds-width` and `openslide.bounds.height`: The width and height of the rectangle that bounds the non-empty region of the slide.
+- `openslide.bounds-x` and `openslide.bounds-y`: The X and Y coordinate of the top left corner of the non-empty region of the slide.
+- `openslide.mpp-x` and `openslide.mpp-y`: Microns per-pixel in the X and Y dimension of the slide at level 0.
 
 > **These properties are not always present** but when they are, they are highly useful.
 
@@ -231,8 +204,7 @@ We will focus on properties generated by OpenSlide, for more read the documentat
 To read a region from the slide we use the `.read_region` method on the WSI object created above.
 
 > This function **lazily** reads a region of the WSI at the specified down-sampling level. The fact that this function does not load the entire WSI into RAM is critical to OpenSlide usability. It is important to note that it is easy to misuse this function since no memory checks are made to validate the arguments.
-
-Read region takes three arguments as described below.
+> Read region takes three arguments as described below.
 
 ```python
 import matplotlib.pyplot as plt
@@ -254,11 +226,7 @@ img = wsi.read_region(location, level, size)
 
 ## Reading the non-empty region of the slide
 
-We must deal with the fact that the non-empty region is a rectangular region within the WSI surrounded by a black border that does not contain any information.
-
-Since we know how to read a non empty region and understand some of the attributes of we will proceed to design a function that reads a usable region of the slide.
-
-For this function we will need access to the following attributes of the slide, furnished by `openslide`.
+We must deal with the fact that the non-empty region is a rectangular region within the WSI surrounded by a black border that does not contain any information. Since we know how to read a non empty region and understand some of the attributes of we will proceed to design a function that reads a usable region of the slide. For this function we will need access to the following attributes of the slide, furnished by `openslide`.
 
 > **Thus function will work for the simple case in which OpenSlide is able to determine the following attributes** > `openslide.bounds-height`, `openslide.bounds-width` > `openslide.bounds-x` and `openslide.bounds-y`.
 
